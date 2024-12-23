@@ -2,6 +2,7 @@ package com.luiscrsarmento.catalog.services;
 
 import com.luiscrsarmento.catalog.dto.CategoryDTO;
 import com.luiscrsarmento.catalog.repositories.CategoryRepository;
+import com.luiscrsarmento.catalog.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,6 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id){
-        return new CategoryDTO(repository.findById(id).get());
+        return new CategoryDTO(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Entity not found")));
     }
 }
