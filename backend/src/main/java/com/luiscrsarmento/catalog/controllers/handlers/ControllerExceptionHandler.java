@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
-import java.util.zip.DataFormatException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -22,7 +21,7 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(DataFormatException.class)
+    @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<StandardError> dataBase(DatabaseException e, HttpServletRequest request){
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(Instant.now(), status.value(), "Database exception", e.getMessage(), request.getRequestURI());
