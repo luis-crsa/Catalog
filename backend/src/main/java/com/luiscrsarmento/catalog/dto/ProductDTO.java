@@ -2,6 +2,10 @@ package com.luiscrsarmento.catalog.dto;
 
 import com.luiscrsarmento.catalog.entities.Category;
 import com.luiscrsarmento.catalog.entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -11,10 +15,17 @@ import java.util.Set;
 public class ProductDTO {
 
     private Long id;
+
+    @NotBlank(message = "Required field")
+    @Size(min = 5, max = 60, message = "Name must be between 5 and 60 characters")
     private String name;
+    @NotBlank(message = "Required field")
     private String description;
+
+    @Positive(message = "Price must be positive")
     private Double price;
     private String imgUrl;
+    @PastOrPresent(message = "Invalid date")
     private Instant date;
 
     private List<CategoryDTO> categories = new ArrayList<>();
