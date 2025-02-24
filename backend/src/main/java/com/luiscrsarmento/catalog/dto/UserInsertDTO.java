@@ -1,5 +1,8 @@
 package com.luiscrsarmento.catalog.dto;
 
+import com.luiscrsarmento.catalog.services.validation.UserInsertValid;
+
+@UserInsertValid
 public class UserInsertDTO extends UserDTO{
 
     private String password;
