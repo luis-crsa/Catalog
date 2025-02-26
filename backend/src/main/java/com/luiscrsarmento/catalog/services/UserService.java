@@ -3,6 +3,7 @@ package com.luiscrsarmento.catalog.services;
 import com.luiscrsarmento.catalog.dto.RoleDTO;
 import com.luiscrsarmento.catalog.dto.UserDTO;
 import com.luiscrsarmento.catalog.dto.UserInsertDTO;
+import com.luiscrsarmento.catalog.dto.UserUpdateDTO;
 import com.luiscrsarmento.catalog.entities.Role;
 import com.luiscrsarmento.catalog.entities.User;
 import com.luiscrsarmento.catalog.repositories.RoleRepository;
@@ -51,7 +52,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserDTO dto){
+    public UserDTO update(Long id, UserUpdateDTO dto){
         try{
             User entity = repository.getReferenceById(id);
             copyDtoToEntity(dto, entity);
