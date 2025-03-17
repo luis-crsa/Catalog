@@ -3,6 +3,7 @@ package com.luiscrsarmento.catalog.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luiscrsarmento.catalog.dto.ProductDTO;
 import com.luiscrsarmento.catalog.tests.Factory;
+import com.luiscrsarmento.catalog.tests.TokenUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,14 @@ public class ProductControllerIT {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private TokenUtil tokenUtil;
+
     private Long existingId;
     private Long nonExistingId;
     private Long countTotalProducts;
+
+    private String username, password, bearerToken;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -39,6 +45,11 @@ public class ProductControllerIT {
         existingId = 1L;
         nonExistingId = 1000L;
         countTotalProducts = 25L;
+
+        username = "maria@gmail.com";
+        password = "123456";
+
+        bearerToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
     }
 
     @Test
@@ -66,6 +77,7 @@ public class ProductControllerIT {
         String expectedDescription = productDTO.getDescription();
 
         ResultActions result = mockMvc.perform(put("/products/{id}", existingId)
+                .header("Authorization", "Bearer " + bearerToken)
                 .content(jsonBody)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
@@ -84,6 +96,7 @@ public class ProductControllerIT {
         String jsonBody = objectMapper.writeValueAsString(productDTO);
 
         ResultActions result = mockMvc.perform(put("/products/{id}", nonExistingId)
+                .header("Authorization", "Bearer " + bearerToken)
                 .content(jsonBody)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
